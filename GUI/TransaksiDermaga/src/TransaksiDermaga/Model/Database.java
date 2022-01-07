@@ -20,21 +20,35 @@ public class Database {
     static final String DB_URL = "jdbc:mysql://localhost/transaksi_dermaga";
     static final String DB_USER = "root";
     static final String DB_PASS = "";
-    static Connection conn;
-    static Statement stmt;
-    static ResultSet rs;
+    static Connection conn = null;
+    static Statement stmt = null;
+    static ResultSet rs = null;
 
     public void connectDB() {
         try {
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            stmt = conn.createStatement();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void disconnectDB() throws SQLException{
+
+//    select
+    public void executeQuery(String query) throws SQLException {
+        this.rs = stmt.executeQuery(query);
+    }
+
+//    sisanya
+    public void execute(String query) throws SQLException {
+        stmt.execute(query);
+    }
+
+    public ResultSet getRs() {
+        return this.rs;
+    }
+
+    public void disconnectDB() throws SQLException {
         this.conn.close();
     }
-    
-    
+
 }
